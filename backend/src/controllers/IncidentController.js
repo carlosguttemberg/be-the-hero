@@ -32,18 +32,27 @@ module.exports = {
     },
 
     async delete(request, response){
-        const { id } = request.params;
-        const ong_id = request.headers.authorization;
+        try {
+            const { id } = request.params;
+            const ong_id = request.headers.authorization;
 
-        const incident = await connection('incidents').where('id', id).select('ong_id').first();
+            const incident = await connection('incidents').where('id', id).select('ong_id').first();
 
-        if(incident.ong_id != ong_id){
-            return response.status(401).json({ error: 'Operation not permitted' });
+            if(typeof incident === "undefined"){
+                return response.status(404).json({ error: 'Case not found' });
+            }
+
+            if(incident.ong_id != ong_id){
+                return response.status(401).json({ error: 'Operation not permitted' });
+            }
+
+            await connection('incidents').where('id', id).delete();
+
+            return response.status(204).send();
+        } catch (error) {
+            return response.status(400).json({errorMessage: error});
         }
-
-        await connection('incidents').where('id', id).delete();
-
-        return response.status(204).send();
+        
     },
 
 }
