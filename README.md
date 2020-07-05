@@ -83,7 +83,7 @@ para isso basta acessar o arquivo knexfile.js e alterar as configurações. Mais
   npm start
 ```
 
-### :computer: Executando a aplicação Mobile (React Native)
+### :iphone: Executando a aplicação Mobile (React Native)
 
 <p>Primeiro sera preciso acessar pelo terminal a pasta mobile, executar o start</p>
 
